@@ -1,7 +1,7 @@
-﻿using FlashCardLearning.Context;
+﻿using FlashCardLearning.DTOs;
 using FlashCardLearning.Model;
+using FlashCardLearning.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlashCardLearning.Controllers
 {
@@ -9,17 +9,24 @@ namespace FlashCardLearning.Controllers
     [ApiController]
     public class FlashCardController : ControllerBase
     {
-        private FlashCardAppContext _context;
-        public FlashCardController(FlashCardAppContext context) {
-            _context = context;
+        private readonly IFlashCardService _flashCardService;    
+        public FlashCardController(IFlashCardService flashCardService) {
+            _flashCardService = flashCardService;   
         }
 
         [HttpGet("/scroll")]
-        public async Task<ActionResult<List<FlashCard>>> GetCards([FromQuery(Name ="id")] Guid id )
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery]FlashCardQueryParams flashCardQueryParams)
         {
-            return Ok(null);
-            //IOrderedQueryable<FlashCard> cards = _context.FlashCards.OrderBy(card => card.Id);
-            //return Ok(cards);
+            try
+            {
+                IEnumerable<FlashCardModel> flashCards = await _flashCardService.GetCards(flashCardQueryParams);
+                return Ok(flashCards);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error: Failed to find cards");
+            }
+            
         }
     }
 }
