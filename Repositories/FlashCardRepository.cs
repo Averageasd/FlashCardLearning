@@ -21,8 +21,9 @@ namespace FlashCardLearning.Repositories
             try
             {
                 IQueryable<FlashCardModel> query = _appContext.FlashCards;
+                query = FlashCardsFilterUtility.Filter(query, flashCardQueryParams);
                 query = FlashCardsSortUtility.Sort(query, flashCardQueryParams);
-                IEnumerable<FlashCardModel> flashCards = await query.Take(20).ToAsyncEnumerable().ToListAsync();
+                IEnumerable<FlashCardModel> flashCards = await query.Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable().ToListAsync();
                 return flashCards;
             }
             catch (Exception ex)

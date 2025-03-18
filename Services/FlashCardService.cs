@@ -1,7 +1,6 @@
 ﻿using FlashCardLearning.DTOs;
 using FlashCardLearning.Model;
 using FlashCardLearning.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlashCardLearning.Services
 {

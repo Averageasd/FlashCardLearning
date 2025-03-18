@@ -4,6 +4,7 @@ using FlashCardLearning.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlashCardLearning.Migrations
 {
     [DbContext(typeof(FlashCardAppContext))]
-    partial class FlashCardAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250318022118_UpdateInitialDataValue")]
+    partial class UpdateInitialDataValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

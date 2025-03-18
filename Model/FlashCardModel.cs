@@ -22,7 +22,7 @@ namespace FlashCardLearning.Model
 
     public class FlashCardType
     {
-        public const string TextOnly = "Text";
-        public const string TextWithImage = "TextWithImage";
+        public const string Basic = "Basic";
+        public const string Advanced = "Advanced";
     }
 }

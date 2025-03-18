@@ -9,7 +9,16 @@
         public string? LastSeenSearchType { get; set; } = "";
         public DateTime? LastSeenDateTime { get; set; } = null;
 
+        // number of visible items
+        public int VisibleItems { get; set; } = 20;
 
-        public string? OrderBy { get; set; }
+        // filters
+        public DateTime? FromDate { get; set; } = null;
+        public DateTime? ToDate { get; set; } = null;
+        public string? FilterType { get; set; } = null;
+
+        public String? OrderCol { get; set; } = "CreatedDate";
+
+        public String? Sort { get; set; } = "asc";
     }
 }

@@ -14,7 +14,7 @@ namespace FlashCardLearning.Controllers
             _flashCardService = flashCardService;   
         }
 
-        [HttpGet("/scroll")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery]FlashCardQueryParams flashCardQueryParams)
         {
             try
@@ -24,7 +24,7 @@ namespace FlashCardLearning.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("Error: Failed to find cards");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
             
         }

@@ -1,5 +1,4 @@
 using FlashCardLearning.Context;
-using FlashCardLearning.Model;
 using FlashCardLearning.Repositories;
 using FlashCardLearning.Services;
 using Microsoft.EntityFrameworkCore;
