@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlashCardLearning.Migrations
 {
     [DbContext(typeof(FlashCardAppContext))]
-    [Migration("20250317145910_InitialData")]
-    partial class InitialData
+    [Migration("20250318143536_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,16 +39,18 @@ namespace FlashCardLearning.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Basic");
 
                     b.HasKey("Id");
 
@@ -61,7 +63,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 1",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -69,7 +71,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 2",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -77,7 +79,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 3",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -85,14 +87,14 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 4",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
                             Id = 5,
                             Description = "a card",
                             Name = "card 5",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -100,7 +102,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 6",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -108,7 +110,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 7",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -116,7 +118,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 8",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -124,7 +126,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 9",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -132,7 +134,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 10",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -140,7 +142,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 11",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -148,7 +150,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 12",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -156,7 +158,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 13",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -164,7 +166,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 14",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -172,7 +174,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 15",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -180,7 +182,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 16",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -188,7 +190,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 17",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -196,7 +198,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 18",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -204,7 +206,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 19",
-                            Type = "Text"
+                            Type = "Basic"
                         },
                         new
                         {
@@ -212,7 +214,7 @@ namespace FlashCardLearning.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "a card",
                             Name = "card 20",
-                            Type = "Text"
+                            Type = "Basic"
                         });
                 });
 #pragma warning restore 612, 618

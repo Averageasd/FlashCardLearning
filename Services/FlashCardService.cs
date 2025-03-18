@@ -11,9 +11,16 @@ namespace FlashCardLearning.Services
             _flashCardRepository = flashCardRepository; 
         }
 
-        public Task AddCard(AddNewCardDTO addNewCardDTO)
+        public async Task<FlashCardModel> AddCard(AddNewCardDTO addNewCardDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _flashCardRepository.AddCard(addNewCardDTO);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams)

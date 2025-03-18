@@ -10,6 +10,8 @@ namespace FlashCardLearning.Repositories
         {
             String sortOption = flashCardQueryParams.Sort == "asc" ? "ascending" : "descending";
             query = query.OrderBy($"{flashCardQueryParams.OrderCol} {sortOption}");
+
+            // fetching next n records starting from the last seen one
             if (flashCardQueryParams.LastSeenId != 0)
             {
                 if (flashCardQueryParams.OrderCol == "CreatedDate")

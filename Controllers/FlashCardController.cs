@@ -9,28 +9,37 @@ namespace FlashCardLearning.Controllers
     [ApiController]
     public class FlashCardController : ControllerBase
     {
-        private readonly IFlashCardService _flashCardService;    
-        public FlashCardController(IFlashCardService flashCardService) {
-            _flashCardService = flashCardService;   
+        private readonly IFlashCardService _flashCardService;
+        public FlashCardController(IFlashCardService flashCardService)
+        {
+            _flashCardService = flashCardService;
         }
 
         [HttpPost]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> CreateCard([FromBody] AddNewCardDTO addNewCardDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (!addNewCardDTO.Type.Equals(FlashCardType.Basic, StringComparison.InvariantCultureIgnoreCase) && !addNewCardDTO.Type.Equals(FlashCardType.Advanced, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return BadRequest();
+            }
             try
             {
-                IEnumerable<FlashCardModel> flashCards = await _flashCardService.GetCards(flashCardQueryParams);
-                return Ok(flashCards);
+                var newCard = await _flashCardService.AddCard(addNewCardDTO);
+                return StatusCode(StatusCodes.Status201Created, newCard);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery]FlashCardQueryParams flashCardQueryParams)
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery] FlashCardQueryParams flashCardQueryParams)
         {
             try
             {
@@ -41,7 +50,7 @@ namespace FlashCardLearning.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            
+
         }
     }
 }

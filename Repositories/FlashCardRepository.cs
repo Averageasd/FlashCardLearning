@@ -1,5 +1,6 @@
 ﻿using FlashCardLearning.Context;
 using FlashCardLearning.DTOs;
+using FlashCardLearning.Mappers;
 using FlashCardLearning.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +17,21 @@ namespace FlashCardLearning.Repositories
             _appContext = appContext;
         }
 
-        public Task AddCard(AddNewCardDTO addNewCardDTO)
+        public async Task<FlashCardModel> AddCard(AddNewCardDTO addNewCardDTO)
         {
-            throw new NotImplementedException();
+            var cardModelFromCardDto = FlashCardMapper.FromAddDtoResponseToModel(addNewCardDTO);
+            var newCard = await _appContext.FlashCards.AddAsync(cardModelFromCardDto);
+            try
+            {
+                await _appContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.FlashCards ON");
+                await _appContext.SaveChangesAsync();
+                await _appContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.FlashCards OFF");
+            }
+            finally
+            {
+                await _appContext.Database.CloseConnectionAsync();
+            }
+            return newCard.Entity;
         }
 
         public async Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams)
