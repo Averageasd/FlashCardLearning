@@ -20,6 +20,9 @@
         public String? OrderCol { get; set; } = "CreatedDate";
 
         public String? Sort { get; set; } = SortingOrder.DescOrder;
+
+        // search
+        public String? SearchField { get; set; } = "";
     }
 
     public class SortingOrder

@@ -1,4 +1,5 @@
-﻿using FlashCardLearning.Context;
+﻿using ExecutionPlanVisualizer;
+using FlashCardLearning.Context;
 using FlashCardLearning.DTOs;
 using FlashCardLearning.Mappers;
 using FlashCardLearning.Model;
@@ -56,8 +57,10 @@ namespace FlashCardLearning.Repositories
             try
             {
                 IQueryable<FlashCardModel> query = _appContext.FlashCards;
+                query = FlashCardSearchUtility.Search(query, flashCardQueryParams);
                 query = FlashCardsFilterUtility.Filter(query, flashCardQueryParams);
                 query = FlashCardsSortUtility.Sort(query, flashCardQueryParams);
+                QueryPlanVisualizer.DumpPlan(query);
                 IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable(). ToListAsync();
                 return flashCards;
             }
@@ -72,7 +75,8 @@ namespace FlashCardLearning.Repositories
         {
             try
             {
-                return await _appContext.FlashCards.FindAsync(id);
+                var findSingleCardQuery = _appContext.FlashCards.Where(x => x.Id == id);
+                return await findSingleCardQuery.FirstOrDefaultAsync();
             }
             catch (Exception)
             {
