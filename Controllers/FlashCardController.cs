@@ -32,7 +32,7 @@ namespace FlashCardLearning.Controllers
                 var newCard = await _flashCardService.AddCard(addNewCardDTO);
                 return StatusCode(StatusCodes.Status201Created, newCard);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

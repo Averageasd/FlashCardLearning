@@ -9,7 +9,7 @@ namespace FlashCardLearning.Repositories
         public static IQueryable<FlashCardModel> Sort(IQueryable<FlashCardModel> query, FlashCardQueryParams flashCardQueryParams)
         {
             String sortOption = flashCardQueryParams.Sort == "asc" ? "ascending" : "descending";
-            query = query.OrderBy($"{flashCardQueryParams.OrderCol} {sortOption}");
+            query = query.OrderBy($"{flashCardQueryParams.OrderCol} {sortOption}, Id ascending");
 
             // fetching next n records starting from the last seen one
             if (flashCardQueryParams.LastSeenId != 0)
@@ -25,7 +25,7 @@ namespace FlashCardLearning.Repositories
                     else
                     {
                         query = query.Where(x =>
-                           x.CreatedDate < flashCardQueryParams.LastSeenDateTime || x.CreatedDate == flashCardQueryParams.LastSeenDateTime && x.Id < flashCardQueryParams.LastSeenId
+                           x.CreatedDate < flashCardQueryParams.LastSeenDateTime || x.CreatedDate == flashCardQueryParams.LastSeenDateTime && x.Id > flashCardQueryParams.LastSeenId
                         );
                     }
 
@@ -41,7 +41,7 @@ namespace FlashCardLearning.Repositories
                     else
                     {
                         query = query.Where(x =>
-                          x.Name.CompareTo(flashCardQueryParams.LastSeenName) < 0 || x.Name.CompareTo(flashCardQueryParams.LastSeenName) == 0 && x.Id < flashCardQueryParams.LastSeenId
+                          x.Name.CompareTo(flashCardQueryParams.LastSeenName) < 0 || x.Name.CompareTo(flashCardQueryParams.LastSeenName) == 0 && x.Id > flashCardQueryParams.LastSeenId
                        );
                     }
                 }

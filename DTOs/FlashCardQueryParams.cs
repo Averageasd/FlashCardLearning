@@ -19,6 +19,12 @@
 
         public String? OrderCol { get; set; } = "CreatedDate";
 
-        public String? Sort { get; set; } = "asc";
+        public String? Sort { get; set; } = SortingOrder.AscOrder;
+    }
+
+    public class SortingOrder
+    {
+        public const string AscOrder = "asc";
+        public const string DescOrder = "desc";
     }
 }

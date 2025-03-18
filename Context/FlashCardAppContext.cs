@@ -20,7 +20,9 @@ namespace FlashCardLearning.Context
 
             modelBuilder.Entity<FlashCardModel>()
             .Property(e => e.Id)
+            .UseIdentityColumn(seed: 1, increment: 1)
             .ValueGeneratedOnAdd();
+            
 
             modelBuilder.Entity<FlashCardModel>()
             .Property(e => e.Type)

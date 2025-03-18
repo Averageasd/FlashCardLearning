@@ -19,20 +19,24 @@ namespace FlashCardLearning.Repositories
 
         public async Task<FlashCardModel> AddCard(AddNewCardDTO addNewCardDTO)
         {
-            var cardModelFromCardDto = FlashCardMapper.FromAddDtoResponseToModel(addNewCardDTO);
-            var newCard = await _appContext.FlashCards.AddAsync(cardModelFromCardDto);
-            try
+            var cardModelFromCardDto = FlashCardMapper.FromAddDtoRequestToModel(addNewCardDTO);
+            using (var transaction = _appContext.Database.BeginTransaction())
             {
-                await _appContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.FlashCards ON");
-                await _appContext.SaveChangesAsync();
-                await _appContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.FlashCards OFF");
+                var newCard = await _appContext.FlashCards.AddAsync(cardModelFromCardDto);
+                try
+                {
+                    await _appContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return newCard.Entity;
+                }
+                catch(Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
-            finally
-            {
-                await _appContext.Database.CloseConnectionAsync();
-            }
-            return newCard.Entity;
         }
+
 
         public async Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams)
         {
@@ -49,6 +53,11 @@ namespace FlashCardLearning.Repositories
                 throw;
             }
             
+        }
+
+        public Task<FlashCardModel> UpdateCard(UpdateCardDTO addNewCardDTO)
+        {
+            throw new NotImplementedException();
         }
     }
 }

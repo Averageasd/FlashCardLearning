@@ -35,5 +35,10 @@ namespace FlashCardLearning.Services
             }
             
         }
+
+        public Task<FlashCardModel> GetSingleCard(AddNewCardDTO cardDTO)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
