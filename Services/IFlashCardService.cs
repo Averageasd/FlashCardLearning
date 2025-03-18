@@ -8,6 +8,8 @@ namespace FlashCardLearning.Services
         Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams);
 
         Task<FlashCardModel> AddCard(AddNewCardDTO addNewCardDTO);
-        Task<FlashCardModel> GetSingleCard(AddNewCardDTO cardDTO);
+        Task<FlashCardModel> GetSingleCard(int id);
+        Task<FlashCardModel> UpdateCard(int id, UpdateCardDTO updateCardDTO);
+        Task DeleteCard(int id);
     }
 }

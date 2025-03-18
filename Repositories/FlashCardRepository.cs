@@ -20,23 +20,36 @@ namespace FlashCardLearning.Repositories
         public async Task<FlashCardModel> AddCard(AddNewCardDTO addNewCardDTO)
         {
             var cardModelFromCardDto = FlashCardMapper.FromAddDtoRequestToModel(addNewCardDTO);
-            using (var transaction = _appContext.Database.BeginTransaction())
+            using var transaction = await _appContext.Database.BeginTransactionAsync();
+            var newCard = await _appContext.FlashCards.AddAsync(cardModelFromCardDto);
+            try
             {
-                var newCard = await _appContext.FlashCards.AddAsync(cardModelFromCardDto);
-                try
-                {
-                    await _appContext.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                    return newCard.Entity;
-                }
-                catch(Exception)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
+                await _appContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return newCard.Entity;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
 
+        public async Task DeleteCard(int id)
+        {
+
+            using var transaction = await _appContext.Database.BeginTransactionAsync();
+            try
+            {
+                await _appContext.FlashCards.Where(x => x.Id == id).ExecuteDeleteAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
 
         public async Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams)
         {
@@ -48,16 +61,44 @@ namespace FlashCardLearning.Repositories
                 IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable(). ToListAsync();
                 return flashCards;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
             
         }
 
-        public Task<FlashCardModel> UpdateCard(UpdateCardDTO addNewCardDTO)
+        public async Task<FlashCardModel> GetSingleCard(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _appContext.FlashCards.FindAsync(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
+        public async Task<FlashCardModel> UpdateCard(int id,FlashCardModel flashCard, UpdateCardDTO addNewCardDTO)
+        {
+            using var transaction = _appContext.Database.BeginTransaction();
+            try
+            {
+                flashCard.Description = addNewCardDTO.Description;
+                flashCard.Name = addNewCardDTO.Name;
+                flashCard.Type = addNewCardDTO.Type;
+                await _appContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return flashCard;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
         }
     }
 }

@@ -19,7 +19,7 @@
 
         public String? OrderCol { get; set; } = "CreatedDate";
 
-        public String? Sort { get; set; } = SortingOrder.AscOrder;
+        public String? Sort { get; set; } = SortingOrder.DescOrder;
     }
 
     public class SortingOrder

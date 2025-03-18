@@ -15,7 +15,7 @@ namespace FlashCardLearning.Model
 
         public string? Description { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public required string Type { get; set; }
     }

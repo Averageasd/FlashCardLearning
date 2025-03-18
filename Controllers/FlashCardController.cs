@@ -46,11 +46,78 @@ namespace FlashCardLearning.Controllers
                 IEnumerable<FlashCardModel> flashCards = await _flashCardService.GetCards(flashCardQueryParams);
                 return Ok(flashCards);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetSingleCard([FromRoute] int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                if (id <= 0)
+                {
+                    return BadRequest();
+                }
+                FlashCardModel returnedFlashCard = await _flashCardService.GetSingleCard(id);
+                return Ok(returnedFlashCard);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> UpdateCard([FromBody] UpdateCardDTO updateCardDTO, [FromRoute] int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                if (!updateCardDTO.Type.Equals(FlashCardType.Basic, StringComparison.InvariantCultureIgnoreCase) && !updateCardDTO.Type.Equals(FlashCardType.Advanced, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return BadRequest();
+                }
+                if (id <= 0)
+                {
+                    return BadRequest();
+                }
+                var updatedCard = await _flashCardService.UpdateCard(id, updateCardDTO);
+                return StatusCode(StatusCodes.Status204NoContent, updatedCard);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> DeleteCard([FromRoute] int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest();
+                }
+                await _flashCardService.DeleteCard(id);
+                return StatusCode(StatusCodes.Status204NoContent);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
