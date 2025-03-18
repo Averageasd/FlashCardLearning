@@ -16,6 +16,11 @@ namespace FlashCardLearning.Repositories
             _appContext = appContext;
         }
 
+        public Task AddCard(AddNewCardDTO addNewCardDTO)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams)
         {
             try
@@ -23,7 +28,7 @@ namespace FlashCardLearning.Repositories
                 IQueryable<FlashCardModel> query = _appContext.FlashCards;
                 query = FlashCardsFilterUtility.Filter(query, flashCardQueryParams);
                 query = FlashCardsSortUtility.Sort(query, flashCardQueryParams);
-                IEnumerable<FlashCardModel> flashCards = await query.Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable().ToListAsync();
+                IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable(). ToListAsync();
                 return flashCards;
             }
             catch (Exception ex)

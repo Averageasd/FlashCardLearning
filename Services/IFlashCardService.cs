@@ -6,5 +6,7 @@ namespace FlashCardLearning.Services
     public interface IFlashCardService
     {
         Task<IEnumerable<FlashCardModel>> GetCards(FlashCardQueryParams flashCardQueryParams);
+
+        Task AddCard(AddNewCardDTO addNewCardDTO);
     }
 }

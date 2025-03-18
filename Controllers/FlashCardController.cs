@@ -14,6 +14,21 @@ namespace FlashCardLearning.Controllers
             _flashCardService = flashCardService;   
         }
 
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<FlashCardModel>>> CreateCard([FromBody] AddNewCardDTO addNewCardDTO)
+        {
+            try
+            {
+                IEnumerable<FlashCardModel> flashCards = await _flashCardService.GetCards(flashCardQueryParams);
+                return Ok(flashCards);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery]FlashCardQueryParams flashCardQueryParams)
         {
