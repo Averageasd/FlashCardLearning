@@ -10,6 +10,9 @@ namespace FlashCardLearning.DTOs
 
         public string? Description { get; set; }
 
+        [MinLength(5), MaxLength(200)]
+        public required string Answer { get; set; }
+
         public required string Type { get; set; }
     }
 }

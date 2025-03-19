@@ -15,6 +15,10 @@ namespace FlashCardLearning.Model
 
         public string? Description { get; set; }
 
+        [Required(ErrorMessage = "Answer is required")]
+        [MinLength(5), MaxLength(200)]
+        public required string Answer { get; set; }
+
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public required string Type { get; set; }

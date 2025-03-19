@@ -13,6 +13,7 @@ namespace FlashCardLearning.Mappers
                 Type = addNewCardDTO.Type,
                 Description = addNewCardDTO.Description,
                 CreatedDate = DateTime.Now,
+                Answer = addNewCardDTO.Answer,
             };
         }
 
@@ -24,6 +25,7 @@ namespace FlashCardLearning.Mappers
                 Type = updateCardDTO.Type,
                 Description = updateCardDTO.Description,
                 CreatedDate = DateTime.Now,
+                Answer = updateCardDTO.Answer,  
             };
         }
     }
