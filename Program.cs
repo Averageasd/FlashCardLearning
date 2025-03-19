@@ -5,6 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure CORS to allow any origin
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CORS", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
+
 builder.Services.AddDbContext<FlashCardAppContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("FlashCardDB"));
     }
@@ -21,6 +34,8 @@ app.UseSwaggerUI(c =>
 {
     c.DisplayRequestDuration();
 });
+
+app.UseCors("CORS");
 
 app.UseHttpsRedirection();
 
