@@ -3,6 +3,7 @@ using FlashCardLearning.Context;
 using FlashCardLearning.DTOs;
 using FlashCardLearning.Mappers;
 using FlashCardLearning.Model;
+using FlashCardLearning.Utility;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -60,15 +61,15 @@ namespace FlashCardLearning.Repositories
                 query = FlashCardSearchUtility.Search(query, flashCardQueryParams);
                 query = FlashCardsFilterUtility.Filter(query, flashCardQueryParams);
                 query = FlashCardsSortUtility.Sort(query, flashCardQueryParams);
-                QueryPlanVisualizer.DumpPlan(query);
-                IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable(). ToListAsync();
+                query.DumpPlan();
+                IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable().ToListAsync();
                 return flashCards;
             }
             catch (Exception)
             {
                 throw;
             }
-            
+
         }
 
         public async Task<FlashCardModel> GetSingleCard(int id)
@@ -82,10 +83,10 @@ namespace FlashCardLearning.Repositories
             {
                 throw;
             }
-            
+
         }
 
-        public async Task<FlashCardModel> UpdateCard(int id,FlashCardModel flashCard, UpdateCardDTO addNewCardDTO)
+        public async Task<FlashCardModel> UpdateCard(int id, FlashCardModel flashCard, UpdateCardDTO addNewCardDTO)
         {
             using var transaction = _appContext.Database.BeginTransaction();
             try

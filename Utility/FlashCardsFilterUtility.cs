@@ -1,7 +1,7 @@
 ﻿using FlashCardLearning.DTOs;
 using FlashCardLearning.Model;
 
-namespace FlashCardLearning.Repositories
+namespace FlashCardLearning.Utility
 {
     public class FlashCardsFilterUtility
     {

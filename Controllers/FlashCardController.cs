@@ -1,6 +1,7 @@
 ﻿using FlashCardLearning.DTOs;
 using FlashCardLearning.Model;
 using FlashCardLearning.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlashCardLearning.Controllers
@@ -16,6 +17,7 @@ namespace FlashCardLearning.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> CreateCard([FromBody] AddNewCardDTO addNewCardDTO)
         {
             if (!ModelState.IsValid)
@@ -39,6 +41,7 @@ namespace FlashCardLearning.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetCards([FromQuery] FlashCardQueryParams flashCardQueryParams)
         {
             try
@@ -46,7 +49,7 @@ namespace FlashCardLearning.Controllers
                 IEnumerable<FlashCardModel> flashCards = await _flashCardService.GetCards(flashCardQueryParams);
                 return Ok(flashCards);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -54,6 +57,7 @@ namespace FlashCardLearning.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> GetSingleCard([FromRoute] int id)
         {
             try
@@ -76,6 +80,7 @@ namespace FlashCardLearning.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> UpdateCard([FromBody] UpdateCardDTO updateCardDTO, [FromRoute] int id)
         {
             try
@@ -103,6 +108,7 @@ namespace FlashCardLearning.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<FlashCardModel>>> DeleteCard([FromRoute] int id)
         {
             try

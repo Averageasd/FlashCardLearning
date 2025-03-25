@@ -14,6 +14,8 @@ namespace FlashCardLearning.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<FlashCardModel>()
             .Property(e => e.Id)
             .UseIdentityColumn(seed: 1, increment: 1)

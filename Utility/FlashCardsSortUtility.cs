@@ -2,13 +2,13 @@
 using FlashCardLearning.Model;
 using System.Linq.Dynamic.Core;
 
-namespace FlashCardLearning.Repositories
+namespace FlashCardLearning.Utility
 {
     public class FlashCardsSortUtility
     {
         public static IQueryable<FlashCardModel> Sort(IQueryable<FlashCardModel> query, FlashCardQueryParams flashCardQueryParams)
         {
-            String sortOption = flashCardQueryParams.Sort == "asc" ? "ascending" : "descending";
+            string sortOption = flashCardQueryParams.Sort == "asc" ? "ascending" : "descending";
             query = query.OrderBy($"{flashCardQueryParams.OrderCol} {sortOption}, Id ascending");
 
             // fetching next n records starting from the last seen one
@@ -46,7 +46,7 @@ namespace FlashCardLearning.Repositories
                     }
                 }
             }
-            
+
             return query;
         }
     }

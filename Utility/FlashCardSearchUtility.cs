@@ -1,7 +1,7 @@
 ﻿using FlashCardLearning.DTOs;
 using FlashCardLearning.Model;
 
-namespace FlashCardLearning.Repositories
+namespace FlashCardLearning.Utility
 {
     public class FlashCardSearchUtility
     {
@@ -13,8 +13,8 @@ namespace FlashCardLearning.Repositories
             }
 
             return query.Where(
-                x => x.Name.ToLower().StartsWith(flashCardQueryParams.SearchField.ToLower()) 
-                || x.Name.ToLower().EndsWith(flashCardQueryParams.SearchField.ToLower()) 
+                x => x.Name.ToLower().StartsWith(flashCardQueryParams.SearchField.ToLower())
+                || x.Name.ToLower().EndsWith(flashCardQueryParams.SearchField.ToLower())
                 || x.Name.ToLower().Contains(flashCardQueryParams.SearchField.ToLower()));
 
         }
