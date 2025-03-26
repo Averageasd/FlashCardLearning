@@ -1,5 +1,4 @@
 ﻿using FlashCardLearning.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -40,6 +39,7 @@ namespace FlashCardLearning.Controllers
                 // create a token as a string
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
+                // return token to client
                 return Ok(new AuthenticatedResponseDTO { Token = tokenString });
             }
 
