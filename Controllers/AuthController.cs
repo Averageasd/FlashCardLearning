@@ -25,14 +25,18 @@ namespace FlashCardLearning.Controllers
 
                 // create a digital signature for token. 
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var claims = new List<Claim>()
+                {
+                    new Claim("userid", Guid.NewGuid().ToString())
+                };
 
                 // token attributes
                 var tokenOptions = new JwtSecurityToken
                 (
                     issuer: "https://localhost:7068",
                     audience: "https://localhost:7068",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
 

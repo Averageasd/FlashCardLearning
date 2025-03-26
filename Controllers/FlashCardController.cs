@@ -120,7 +120,7 @@ namespace FlashCardLearning.Controllers
                 await _flashCardService.DeleteCard(id);
                 return StatusCode(StatusCodes.Status204NoContent);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
