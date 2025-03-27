@@ -1,4 +1,5 @@
 ﻿using FlashCardLearning.DTOs;
+using FlashCardLearning.Exceptions;
 using FlashCardLearning.Model;
 using FlashCardLearning.Repositories;
 
@@ -31,7 +32,7 @@ namespace FlashCardLearning.Services
                 var existingCard = await _flashCardRepository.GetSingleCard(id);
                 if (existingCard == null)
                 {
-                    throw new Exception();
+                    throw new CardNotFoundException(id);
                 }
                 await _flashCardRepository.DeleteCard(id);
             }
@@ -61,7 +62,7 @@ namespace FlashCardLearning.Services
                 var returnedCard = await _flashCardRepository.GetSingleCard(id);
                 if (returnedCard == null)
                 {
-                    throw new Exception();
+                    throw new CardNotFoundException(id);
                 }
                 return returnedCard;
             }
@@ -78,7 +79,7 @@ namespace FlashCardLearning.Services
                 var existingCard = await _flashCardRepository.GetSingleCard(id);
                 if (existingCard == null)
                 {
-                    throw new Exception();
+                    throw new CardNotFoundException(id);
                 }
                 return await _flashCardRepository.UpdateCard(id, existingCard, updateCardDTO);
             }

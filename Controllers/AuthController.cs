@@ -19,6 +19,11 @@ namespace FlashCardLearning.Controllers
                 return BadRequest();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             if (loginDTO.UserName == "nguyen" && loginDTO.Password == "def@1234")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ad2c1a2fa69728533ac3b18dd3489290"));

@@ -1,6 +1,6 @@
-﻿using ExecutionPlanVisualizer;
-using FlashCardLearning.Context;
+﻿using FlashCardLearning.Context;
 using FlashCardLearning.DTOs;
+using FlashCardLearning.Exceptions;
 using FlashCardLearning.Mappers;
 using FlashCardLearning.Model;
 using FlashCardLearning.Utility;
@@ -33,7 +33,7 @@ namespace FlashCardLearning.Repositories
             catch (Exception)
             {
                 await transaction.RollbackAsync();
-                throw;
+                throw new InternalServerErrorException();
             }
         }
 
@@ -49,7 +49,7 @@ namespace FlashCardLearning.Repositories
             catch (Exception)
             {
                 await transaction.RollbackAsync();
-                throw;
+                throw new InternalServerErrorException();
             }
         }
 
@@ -61,13 +61,12 @@ namespace FlashCardLearning.Repositories
                 query = FlashCardSearchUtility.Search(query, flashCardQueryParams);
                 query = FlashCardsFilterUtility.Filter(query, flashCardQueryParams);
                 query = FlashCardsSortUtility.Sort(query, flashCardQueryParams);
-                query.DumpPlan();
                 IEnumerable<FlashCardModel> flashCards = await query.AsNoTracking().Take(flashCardQueryParams.VisibleItems).ToAsyncEnumerable().ToListAsync();
                 return flashCards;
             }
             catch (Exception)
             {
-                throw;
+                throw new InternalServerErrorException();
             }
 
         }
@@ -77,13 +76,13 @@ namespace FlashCardLearning.Repositories
             try
             {
                 var findSingleCardQuery = _appContext.FlashCards.Where(x => x.Id == id);
-                return await findSingleCardQuery.FirstOrDefaultAsync();
+                var singleCard = await findSingleCardQuery.FirstOrDefaultAsync();
+                return singleCard;
             }
             catch (Exception)
             {
-                throw;
+                throw new InternalServerErrorException();
             }
-
         }
 
         public async Task<FlashCardModel> UpdateCard(int id, FlashCardModel flashCard, UpdateCardDTO addNewCardDTO)
@@ -101,7 +100,7 @@ namespace FlashCardLearning.Repositories
             catch (Exception)
             {
                 await transaction.RollbackAsync();
-                throw;
+                throw new InternalServerErrorException();
             }
 
         }

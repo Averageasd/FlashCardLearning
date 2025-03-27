@@ -22,6 +22,11 @@ namespace FlashCardLearning.Model
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public required string Type { get; set; }
+
+        [ForeignKey(nameof(UserModelId))]
+        public Guid? UserModelId { get; set; }
+
+        public UserModel? UserModel { get; set; }
     }
 
     public class FlashCardType

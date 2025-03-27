@@ -1,4 +1,5 @@
 ﻿using FlashCardLearning.DTOs;
+using FlashCardLearning.Exceptions;
 using FlashCardLearning.Model;
 using FlashCardLearning.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -34,9 +35,16 @@ namespace FlashCardLearning.Controllers
                 var newCard = await _flashCardService.AddCard(addNewCardDTO);
                 return StatusCode(StatusCodes.Status201Created, newCard);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                if (e is CardNotFoundException)
+                {
+                    return BadRequest(e.Message);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                }
             }
         }
 
@@ -51,7 +59,7 @@ namespace FlashCardLearning.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
         }
@@ -73,9 +81,16 @@ namespace FlashCardLearning.Controllers
                 FlashCardModel returnedFlashCard = await _flashCardService.GetSingleCard(id);
                 return Ok(returnedFlashCard);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                if (e is CardNotFoundException)
+                {
+                    return BadRequest(e.Message);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                }
             }
         }
 
@@ -101,9 +116,17 @@ namespace FlashCardLearning.Controllers
                 var updatedCard = await _flashCardService.UpdateCard(id, updateCardDTO);
                 return StatusCode(StatusCodes.Status204NoContent, updatedCard);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                if (e is CardNotFoundException)
+                {
+                    return BadRequest(e.Message);   
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                }
+               
             }
         }
 
@@ -122,7 +145,15 @@ namespace FlashCardLearning.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                if (e is CardNotFoundException)
+                {
+                    return BadRequest(e.Message);   
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                }
+                
             }
         }
     }
